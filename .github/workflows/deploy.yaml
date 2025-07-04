@@ -1,16 +1,42 @@
-# Your workflow name.
-name: Deploy to Render
+name: Build and Deploy to Render
 
-# Run workflow on every push to main branch.
 on:
   push:
-    branches: [main]
+    branches:
+      - main
 
-# Your workflows jobs.
 jobs:
-  deploy:
+  build_and_push:
+    name: Build and Push Docker Image
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger Render Deploy Hook
-        run: |
-          curl -X POST "https://api.render.com/deploy/srv-d1k0ukali9vc738u9sog?key=D_cM9YvVR4M"
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/ml_project_with_mlops:latest
+
+  deploy:
+    name: Deploy to Render
+    needs: build_and_push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Render Deploy
+        uses: gh-actions-workflows/deploy-docker-render@v1.1
+        with:
+          deploy-hook: ${{ secrets.RENDER_DEPLOY_HOOK }}
+          image-url: ${{ secrets.DOCKERHUB_USERNAME }}/ml_project_with_mlops:latest

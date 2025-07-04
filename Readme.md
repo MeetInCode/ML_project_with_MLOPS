@@ -1,4 +1,4 @@
-
+# Student Performance Prediction ML Project
 
 ## Project Overview
 
@@ -127,84 +127,81 @@ graph TD
 ## 🚀 Detailed CI/CD Pipeline
 
 ```mermaid
+%%{init: {'theme': 'dark', 'themeVariables': { 'fontFamily': 'arial' }}}%%
 graph TD
-    A[Developer] -->|"1. Git Push"| B[GitHub Repository]
+    A["Developer"] -->|"1. Git Push"| B["GitHub Repository"]
 
-    subgraph "Stage 1: Continuous Integration (GitHub Actions)"
-        B -->|"2. Trigger Workflow"| C["Initialize & Checkout Code"]
-        C -->|"3. Setup Environment"| D[Install Dependencies]
-        D -->|"4. Run Tests"| E[Tests Pass]
+    subgraph Stage1["CI Pipeline"]
+        B --> C["Initialize and Checkout"]
+        C --> D["Install Dependencies"]
+        D --> E["Tests Pass"]
     end
 
-    subgraph "Stage 2: Build and Push Docker Image (GitHub Actions)"
-        E -->|"5. Build Success"| F[Build Docker Image]
-        F -->|"6. Tag Image"| G[Login to Docker Hub]
-        G -->|"7. Push Image"| H[Push to Docker Hub Registry]
+    subgraph Stage2["Docker Build"]
+        E --> F["Build Docker Image"]
+        F --> G["Login to Docker Hub"]
+        G --> H["Push to Registry"]
     end
 
-    subgraph "Stage 3: Deployment (Render)"
-        H -->|"8. Image Ready"| I[Trigger Render Webhook]
-        I -->|"9. Pull Latest Image"| J[Initialize Deployment]
-        J -->|"10. Start New Container"| K[Run Health Checks]
-        K -->|"11. Checks Pass"| L["Route Traffic (Zero-Downtime Switch)"]
+    subgraph Stage3["Deployment"]
+        H --> I["Trigger Webhook"]
+        I --> J["Initialize Deploy"]
+        J --> K["Health Checks"]
+        K --> L["Route Traffic"]
     end
 
-    subgraph "Stage 4: Monitoring & Rollback"
-        L -->|"12. Verify Deployment"| M[Monitor Application]
-        M -->|"13. Check Metrics"| N{Performance Status}
-        N -->|"14a. Issues Detected"| O[Initiate Automatic Rollback]
-        O -->|"15. Revert to Stable"| P[Previous Healthy Version]
-        N -->|"14b. All Clear"| Q[Deployment Successful]
+    subgraph Stage4["Monitoring"]
+        L --> M["Monitor App"]
+        M --> N{"Status Check"}
+        N --> |"Issues"| O["Start Rollback"]
+        O --> P["Previous Version"]
+        N --> |"Success"| Q["Deployment Done"]
     end
 
-    %% Styling
-    style "Stage 1: Continuous Integration (GitHub Actions)" fill:#e6f3ff,stroke:#333,stroke-width:2px
-    style "Stage 2: Build and Push Docker Image (GitHub Actions)" fill:#e6ffe6,stroke:#333,stroke-width:2px
-    style "Stage 3: Deployment (Render)" fill:#ffe6e6,stroke:#333,stroke-width:2px
-    style "Stage 4: Monitoring & Rollback" fill:#fff5e6,stroke:#333,stroke-width:2px
+    %% Dark theme styling
+    classDef default fill:#2d2d2d,stroke:#7f7f7f,stroke-width:2px,color:#fff
+    classDef stage1 fill:#1a365d,stroke:#4299e1,stroke-width:2px,color:#fff
+    classDef stage2 fill:#1c4532,stroke:#48bb78,stroke-width:2px,color:#fff
+    classDef stage3 fill:#553c9a,stroke:#9f7aea,stroke-width:2px,color:#fff
+    classDef stage4 fill:#744210,stroke:#ecc94b,stroke-width:2px,color:#fff
 
-
-
+    class Stage1 stage1
+    class Stage2 stage2
+    class Stage3 stage3
+    class Stage4 stage4
 ```
 
 ### Detailed CI/CD Workflow:
 
-1. **Development Stage**:
+1. **Stage 1: Continuous Integration**
 
-   - Code changes pushed to GitHub repository
-   - Automated workflow trigger on main branch
-   - Environment setup and dependency installation
-
-2. **Continuous Integration**:
-
-   - Automated code checkout
+   - Automated code checkout from GitHub
    - Python environment setup
-   - Installation of project dependencies
-   - Execution of test suite
-   - Code quality checks
+   - Dependencies installation
+   - Test suite execution
+   - Code quality verification
 
-3. **Docker Build Process**:
+2. **Stage 2: Docker Image Build**
 
-   - Multi-stage Docker build
-   - Optimized container creation
-   - Image tagging with version
+   - Multi-stage Docker build process
+   - Image optimization and tagging
    - Secure Docker Hub authentication
    - Image push to registry
 
-4. **Render Deployment**:
+3. **Stage 3: Render Deployment**
 
-   - Webhook-triggered deployment
-   - Automated image pulling
+   - Automated webhook triggering
+   - Latest image pulling
    - Container initialization
    - Health check verification
-   - Zero-downtime deployment strategy
+   - Zero-downtime traffic routing
 
-5. **Monitoring & Maintenance**:
+4. **Stage 4: Monitoring & Rollback**
    - Continuous application monitoring
    - Performance metrics tracking
-   - Automated rollback capability
-   - Version control management
-   - Health status verification
+   - Automated failure detection
+   - Instant rollback capability
+   - Version management
 
 ### Security Measures:
 
@@ -265,8 +262,6 @@ docker build -t student-performance-app .
 docker run -p 5000:5000 student-performance-app
 ```
 
-
-
 ## 🌐 API Reference
 
 ### Prediction Endpoint
@@ -282,16 +277,10 @@ docker run -p 5000:5000 student-performance-app
   - reading_score
   - writing_score
 
-
-
-
-
 ## 📧 Contact
 
 - Author: MeetInCode
 - Email: mehtameet115@gmail.com
-
-
 
 ## 🐳 Docker Hub
 
@@ -302,6 +291,7 @@ You can also find the pre-built Docker image for this project on Docker Hub:
 To pull and run the image directly, follow these steps:
 
 1. Pull the image from Docker Hub:
+
    ```bash
    docker pull thisismeet/end_to_end_mlproject:latest
    ```
@@ -312,6 +302,3 @@ To pull and run the image directly, follow these steps:
    ```
 
 This will start the application and make it accessible at `http://localhost:5000`.
-
-
-

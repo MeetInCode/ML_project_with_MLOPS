@@ -130,37 +130,41 @@ graph TD
 graph TD
     A[Developer] -->|"1. Git Push"| B[GitHub Repository]
 
-    subgraph "GitHub Actions Workflow"
-        B -->|"2. Trigger Workflow"| C[Initialize CI/CD]
-        C -->|"3. Checkout Code"| D[Setup Environment]
-        D -->|"4. Install Dependencies"| E[Run Tests]
-
-        subgraph "Docker Build Process"
-            E -->|"5. Build Success"| F[Build Docker Image]
-            F -->|"6. Tag Image"| G[Login to Docker Hub]
-            G -->|"7. Push Image"| H[Docker Hub Registry]
-        end
+    subgraph "Stage 1: Continuous Integration (GitHub Actions)"
+        B -->|"2. Trigger Workflow"| C["Initialize & Checkout Code"]
+        C -->|"3. Setup Environment"| D[Install Dependencies]
+        D -->|"4. Run Tests"| E[Tests Pass]
     end
 
-    subgraph "Render Deployment"
+    subgraph "Stage 2: Build and Push Docker Image (GitHub Actions)"
+        E -->|"5. Build Success"| F[Build Docker Image]
+        F -->|"6. Tag Image"| G[Login to Docker Hub]
+        G -->|"7. Push Image"| H[Push to Docker Hub Registry]
+    end
+
+    subgraph "Stage 3: Deployment (Render)"
         H -->|"8. Image Ready"| I[Trigger Render Webhook]
         I -->|"9. Pull Latest Image"| J[Initialize Deployment]
-        J -->|"10. Health Check"| K[Start New Container]
-        K -->|"11. Route Traffic"| L[Zero-Downtime Switch]
+        J -->|"10. Start New Container"| K[Run Health Checks]
+        K -->|"11. Checks Pass"| L["Route Traffic (Zero-Downtime Switch)"]
+    end
+
+    subgraph "Stage 4: Monitoring & Rollback"
         L -->|"12. Verify Deployment"| M[Monitor Application]
+        M -->|"13. Check Metrics"| N{Performance Status}
+        N -->|"14a. Issues Detected"| O[Initiate Automatic Rollback]
+        O -->|"15. Revert to Stable"| P[Previous Healthy Version]
+        N -->|"14b. All Clear"| Q[Deployment Successful]
     end
 
-    subgraph "Monitoring"
-        M -->|"13. Check Metrics"| N[Performance Monitoring]
-        N -->|"14. Issues Detected"| O[Automatic Rollback]
-        O -->|"15. Revert to Stable"| P[Previous Version]
-        N -->|"16. All Clear"| Q[Deployment Success]
-    end
+    %% Styling
+    style "Stage 1: Continuous Integration (GitHub Actions)" fill:#e6f3ff,stroke:#333,stroke-width:2px
+    style "Stage 2: Build and Push Docker Image (GitHub Actions)" fill:#e6ffe6,stroke:#333,stroke-width:2px
+    style "Stage 3: Deployment (Render)" fill:#ffe6e6,stroke:#333,stroke-width:2px
+    style "Stage 4: Monitoring & Rollback" fill:#fff5e6,stroke:#333,stroke-width:2px
 
-    style GitHub Actions Workflow fill:#e6f3ff,stroke:#333,stroke-width:2px
-    style Docker Build Process fill:#e6ffe6,stroke:#333,stroke-width:2px
-    style Render Deployment fill:#ffe6e6,stroke:#333,stroke-width:2px
-    style Monitoring fill:#fff5e6,stroke:#333,stroke-width:2px
+
+
 ```
 
 ### Detailed CI/CD Workflow:

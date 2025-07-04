@@ -28,7 +28,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/ml_project_with_mlops:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/end_to_end_mlproject:latest
 
   deploy:
     name: Deploy to Render
@@ -39,4 +39,4 @@ jobs:
         uses: gh-actions-workflows/deploy-docker-render@v1.1
         with:
           deploy-hook: ${{ secrets.RENDER_DEPLOY_HOOK }}
-          image-url: ${{ secrets.DOCKERHUB_USERNAME }}/ml_project_with_mlops:latest
+          image-url: ${{ secrets.DOCKERHUB_USERNAME }}/end_to_end_mlproject:latest

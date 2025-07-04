@@ -1,4 +1,4 @@
-# Student Performance Prediction ML Project
+
 
 ## Project Overview
 
@@ -310,6 +310,11 @@ https://github.com/user-attachments/assets/af414ec5-b2c3-45a2-86ba-01f477d2a151
 
 
 https://github.com/user-attachments/assets/5dbeacc8-fc74-4750-9db6-3c6279734322
+
+
+
+
+https://github.com/user-attachments/assets/fc5dcb5f-b33e-4060-bc2d-d0f38a6e548c
 
 
 

@@ -1,0 +1,16 @@
+# Your workflow name.
+name: Deploy to Render
+
+# Run workflow on every push to main branch.
+on:
+  push:
+    branches: [main]
+
+# Your workflows jobs.
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Render Deploy Hook
+        run: |
+          curl -X POST "https://api.render.com/deploy/srv-d1k0ukali9vc738u9sog?key=D_cM9YvVR4M"

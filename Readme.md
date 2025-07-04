@@ -302,3 +302,15 @@ To pull and run the image directly, follow these steps:
    ```
 
 This will start the application and make it accessible at `http://localhost:5000`.
+
+
+
+https://github.com/user-attachments/assets/af414ec5-b2c3-45a2-86ba-01f477d2a151
+
+
+
+https://github.com/user-attachments/assets/5dbeacc8-fc74-4750-9db6-3c6279734322
+
+
+
+
